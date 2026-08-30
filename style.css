@@ -162,19 +162,22 @@ button, a {
 
 @media (max-width: 699px) and (orientation: portrait) {
   .seal-button {
-    width: min(100vw, 900px);
-    height: min(78vh, 860px);
+    width: min(96vw, 820px);
+    height: auto;
+    max-height: 72vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: visible;
   }
 
   .seal-button img {
-    height: 100%;
-    width: auto;
+    width: 100%;
+    height: auto;
+    max-height: 72vh;
     object-fit: contain;
     transform-origin: center center;
-    transform: rotate(90deg) translateY(-2%);
+    transform: rotate(90deg) scale(1.03);
     display: block;
   }
 
