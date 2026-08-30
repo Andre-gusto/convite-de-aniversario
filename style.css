@@ -160,6 +160,29 @@ button, a {
   }
 }
 
+@media (max-width: 699px) and (orientation: portrait) {
+  .seal-button {
+    width: min(100vw, 900px);
+    height: min(78vh, 860px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .seal-button img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    transform-origin: center center;
+    transform: rotate(90deg) translateY(-2%);
+    display: block;
+  }
+
+  .opening-hint {
+    top: 17%;
+  }
+}
+
 .seal-button::after {
   content: "";
   position: absolute;
