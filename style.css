@@ -1,0 +1,449 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+
+:root {
+  --gold: #e6bd58;
+  --gold-light: #ffe7a0;
+  --black: #080808;
+  --panel: #151515;
+  --white: #fff;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background: #080808;
+  color: var(--white);
+  font-family: "Playfair Display", Georgia, serif;
+}
+
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.envelope-page,
+.invitation-page {
+  min-height: 100svh;
+  overflow-x: hidden;
+}
+
+/* ---------- TELA DO ENVELOPE ---------- */
+
+.envelope-screen {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(224, 177, 66, .10), transparent 25%),
+    #111;
+}
+
+.envelope-screen::before,
+.envelope-screen::after {
+  content: "";
+  position: absolute;
+  inset: -15%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.envelope-screen::before {
+  background: radial-gradient(circle, rgba(255, 220, 130, .16) 0 1px, transparent 2px);
+  background-size: 42px 42px;
+  animation: drift 18s linear infinite;
+}
+
+.envelope-screen::after {
+  background: linear-gradient(115deg, transparent 35%, rgba(255, 221, 132, .10), transparent 48%);
+  transform: translateX(-100%);
+  animation: sweep 6s ease-in-out infinite;
+}
+
+.ambient {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: .18;
+  pointer-events: none;
+}
+
+.ambient-1 {
+  width: 280px;
+  height: 280px;
+  background: #d9a93d;
+  top: -100px;
+  left: -100px;
+}
+
+.ambient-2 {
+  width: 260px;
+  height: 260px;
+  background: #e7c45e;
+  bottom: -100px;
+  right: -100px;
+}
+
+.seal-button {
+  position: relative;
+  width: min(96vw, 1280px);
+  max-width: 1280px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  overflow: visible;
+  animation: pageIn .9s ease both;
+  display: block;
+  margin: 0 auto;
+  /* ensure the button doesn't grow too tall */
+  max-height: min(86vh, 1050px);
+}
+
+.seal-button img {
+  display: block;
+  /* make the image fit without being cropped */
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  transform-origin: center;
+  transform: rotate(0deg);
+}
+
+/* On wider screens rotate only the envelope visual (the button) so layout stays stable */
+@media (min-width: 700px) {
+  .envelope-screen {
+    position: relative;
+    transform: none;
+    width: auto;
+    height: auto;
+    display: grid;
+    place-items: center;
+    overflow: visible;
+  }
+
+  .seal-button {
+    width: min(92vw, 1200px);
+    height: min(72vh, 860px);
+    max-width: 1280px;
+    max-height: 1050px;
+    overflow: visible;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: none;
+  }
+
+  .seal-button img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    transform-origin: center center;
+    /* apply small translate to visually center after rotation */
+    transform: rotate(90deg) translateY(-4%);
+    display: block;
+  }
+
+  /* keep the opening hint readable and in original position */
+  .opening-hint {
+    transform: translateX(-50%);
+  }
+
+  .back-link {
+    transform: none;
+  }
+}
+
+.seal-button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 52%, transparent 0 9%, rgba(0,0,0,0) 15%, rgba(0,0,0,.14));
+  pointer-events: none;
+}
+
+.seal-hotspot {
+  position: absolute;
+  /* keep hotspot centered relative to the visual seal after rotation */
+  left: 50%;
+  top: 50%;
+  width: clamp(8%, 12vw, 14%);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(255, 219, 130, .8);
+  animation: pulse 1.8s infinite;
+}
+
+.opening-hint {
+  position: absolute;
+  top: 14%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .25rem;
+  pointer-events: none;
+  text-align: center;
+  text-shadow: 0 3px 10px #000;
+}
+
+.hint-text {
+  font-family: "Cinzel", Georgia, serif;
+  font-size: clamp(1rem, 3vw, 2rem);
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+
+.hint-arrow {
+  font-family: Arial, sans-serif;
+  font-size: clamp(3rem, 9vw, 6rem);
+  line-height: .7;
+  transform: rotate(8deg);
+  animation: point 1.3s ease-in-out infinite;
+}
+
+.opening-shine {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(110deg, transparent 42%, rgba(255, 234, 168, .14) 50%, transparent 58%);
+  transform: translateX(-100%);
+  animation: sweep 4.8s ease-in-out 1.2s infinite;
+}
+
+/* ---------- CONVITE ---------- */
+.span {
+  color: var(--white);
+}
+.invitation-screen {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 12px 56px;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(220, 177, 70, .13), transparent 24%),
+    radial-gradient(circle at 20% 80%, rgba(220, 177, 70, .08), transparent 25%),
+    #050505;
+  overflow: hidden;
+}
+
+.invitation-card {
+  position: relative;
+  width: min(100%, 560px);
+  filter: drop-shadow(0 25px 50px rgba(0,0,0,.65));
+  animation: cardIn 1s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.invitation-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 0 0 1px rgba(230,189,88,.25);
+}
+
+.interactive-buttons {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 7.5%;
+  display: flex;
+  justify-content: center;
+  gap: 9%;
+  padding: 0 12%;
+}
+
+.action-button {
+  width: 34%;
+  min-width: 125px;
+  text-decoration: none;
+  color: #17120a;
+  text-align: center;
+  font-family: Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(.78rem, 2.3vw, 1rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  transition: transform .25s ease, filter .25s ease;
+}
+
+.action-button:hover {
+  transform: translateY(-5px) scale(1.03);
+  filter: drop-shadow(0 8px 12px rgba(255, 220, 130, .3));
+}
+
+.action-button:focus-visible {
+  outline: 3px solid white;
+  outline-offset: 5px;
+  border-radius: 16px;
+}
+
+.action-icon {
+  width: clamp(52px, 10vw, 76px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #ead18f;
+  border: 4px solid rgba(255,255,255,.85);
+  box-shadow: 0 5px 18px rgba(0,0,0,.45), inset 0 0 0 2px rgba(255,255,255,.35);
+  font-family: Arial, sans-serif;
+  font-size: clamp(1.65rem, 4.5vw, 2.5rem);
+  line-height: 1;
+}
+
+.mobile-tip {
+  position: absolute;
+  bottom: 2.4%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  margin: 0;
+  text-align: center;
+  font-size: clamp(.75rem, 2.2vw, 1rem);
+  color: white;
+  text-shadow: 0 2px 5px #000;
+  pointer-events: none;
+}
+
+.decor {
+  position: absolute;
+  color: rgba(255, 224, 139, .8);
+  font-size: 1.2rem;
+  text-shadow: 0 0 14px rgba(255, 220, 120, .7);
+  animation: twinkle 2.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.decor-top-left { top: 12%; left: 4%; }
+.decor-top-right { top: 17%; right: 4%; animation-delay: .8s; }
+.decor-bottom-left { bottom: 15%; left: 6%; animation-delay: 1.4s; }
+.decor-bottom-right { bottom: 12%; right: 6%; animation-delay: 2s; }
+
+.sparkles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.spark {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #ffe6a1;
+  box-shadow: 0 0 12px 3px rgba(255, 214, 110, .6);
+  animation: floatSpark var(--duration) ease-in-out infinite;
+  opacity: 0;
+}
+
+.back-link {
+  position: fixed;
+  bottom: 12px;
+  left: 14px;
+  color: rgba(255,255,255,.7);
+  text-decoration: none;
+  font-family: Arial, sans-serif;
+  font-size: .78rem;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(0,0,0,.38);
+  backdrop-filter: blur(5px);
+}
+
+.back-link:hover { color: #fff; }
+
+/* ---------- ANIMAÇÕES ---------- */
+
+@keyframes pageIn {
+  from { opacity: 0; transform: scale(1.025); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(24px) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 219, 130, 0); }
+  45% { box-shadow: 0 0 0 14px rgba(255, 219, 130, .28); }
+  70% { box-shadow: 0 0 0 28px rgba(255, 219, 130, 0); }
+}
+
+@keyframes point {
+  0%, 100% { transform: translateY(0) rotate(8deg); }
+  50% { transform: translateY(8px) rotate(8deg); }
+}
+
+@keyframes sweep {
+  0%, 15% { transform: translateX(-100%); }
+  55%, 100% { transform: translateX(100%); }
+}
+
+@keyframes drift {
+  from { transform: translate3d(0,0,0); }
+  to { transform: translate3d(42px,42px,0); }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: .35; transform: scale(.8); }
+  50% { opacity: 1; transform: scale(1.35); }
+}
+
+@keyframes floatSpark {
+  0% { opacity: 0; transform: translateY(20px) scale(.5); }
+  20% { opacity: .8; }
+  80% { opacity: .5; }
+  100% { opacity: 0; transform: translateY(-90px) scale(1); }
+}
+
+@media (max-width: 480px) {
+  .invitation-screen { padding: 8px 5px 44px; }
+  .invitation-card { width: min(100%, 430px); }
+  .interactive-buttons {
+    bottom: 7.2%;
+    gap: 5%;
+    padding: 0 9%;
+  }
+  .action-button {
+    min-width: 0;
+    width: 40%;
+    font-size: .68rem;
+  }
+  .action-icon {
+    width: 54px;
+    border-width: 3px;
+  }
+  .mobile-tip { bottom: 2.2%; font-size: .68rem; }
+  .back-link { font-size: .7rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.seal-button.opening {
+  animation: sealOpen .28s ease forwards;
+}
+@keyframes sealOpen {
+  to { opacity: 0; transform: scale(1.04); filter: blur(2px); }
+}
